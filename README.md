@@ -1,4 +1,7 @@
 # ynab-live-import
+Not my work, this work is from @buzzlawless. Only creating this fork to later merge back into Buzz' work after I've got an ING parser working. 
+
+#### README
 Automatically import transactions to YNAB [(You Need a Budget)](https://youneedabudget.com) in real-time!
 
 YNAB is great, but manually entering your transactions is kind of a bummer.  Auto-import is great, but I'm not crazy about giving up my bank account username and password.  And having to wait a few days for transactions to clear before they can be imported also isn’t ideal. File-based import gets the job done but is quite the hassle.
