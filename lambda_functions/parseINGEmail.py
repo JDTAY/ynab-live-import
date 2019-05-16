@@ -35,20 +35,25 @@ def lambda_handler(event, context):
     (last_digits, date, amount, payee) = parse(contents)
     save_to_db(message_id, last_digits, date, amount, payee)
 
-
+#! Several items are needing to be fixed here.
 def parse(contents):
     '''Parse the contents of the email for transaction data.'''
-    if 'Your Single Transaction Alert from ING' not in contents:
+    #!All emails I've tested so far contain this string from ING in Aus
+    if 'We\'re writing to let you know that' not in contents:
         sys.exit(0)
-    remainder = re.split(r'ending{0}in{0}'.format(WS), contents, 1)[1]
+    #!Amend my account nicknames so the 4 digits of the account are the beginning, not end of the accounts nickname
+    remainder = re.split(r'deposit{0}has{0}been{0}made{0}into{0}your{0}'.format(WS), contents, 1)[1]
     last_digits = remainder[:NUM_DIGITS]
-    remainder = re.split(r'charge{0}of{0}\(\$USD\){0}'.format(WS),
+    #!Needs amending to capture the AUD dollar value
+    remainder = re.split(r'that{0}a{0}\(\$USD\){0}'.format(WS),
                          remainder, 1)[1]
+    #!ING notifications do not provide a merchant ID, I'll need to add a default value here
     remainder = re.split(r'{0}at{0}'.format(WS), remainder, 1)
     amount = remainder[0]
     remainder = re.split(r'{0}has{0}been{0}authorized{0}on{0}'.format(WS),
                          remainder[1], 1)
     payee = remainder[0]
+    #!ING does not provide a date or time in the body of the email, this will need to be captured from the email header
     date = format_date(remainder[1][:DATE_LEN])
     return (last_digits, date, amount, payee)
 
