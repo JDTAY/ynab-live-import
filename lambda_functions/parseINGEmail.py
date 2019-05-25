@@ -42,10 +42,10 @@ def parse(contents):
     if 'We\'re writing to let you know that' not in contents:
         sys.exit(0)
     #!Amend account nicknames so the 4 digits of the account are the beginning, not end of the accounts nickname
-    remainder = re.split(r'(We\'re writing to let you know that a \$\d{1,}.\d{1,})'.format(WS), contents, 1)[1]
+    remainder = re.split(r'(We\'re writing to let you know that a)'.format(WS), contents, 1)[1]
     last_digits = remainder[:NUM_DIGITS]
     #!Needs amending to capture the AUD dollar value
-    remainder = re.split(r'that{0}a{0}\(\$USD\){0}'.format(WS),
+    remainder = re.split(r'that a \$\d{1,}.\d{1,}'.format(WS),
                          remainder, 1)[1]
     #!ING notifications do not provide a merchant ID, I'll need to add a default value here
     remainder = re.split(r'{0}at{0}'.format(WS), remainder, 1)
