@@ -41,8 +41,8 @@ def parse(contents):
     #!All emails I've tested so far contain this string from ING in Aus
     if 'We\'re writing to let you know that' not in contents:
         sys.exit(0)
-    #!Amend my account nicknames so the 4 digits of the account are the beginning, not end of the accounts nickname
-    remainder = re.split(r'deposit{0}has{0}been{0}made{0}into{0}your{0}'.format(WS), contents, 1)[1]
+    #!Amend account nicknames so the 4 digits of the account are the beginning, not end of the accounts nickname
+    remainder = re.split(r'(We\'re writing to let you know that a \$\d{1,}.\d{1,})'.format(WS), contents, 1)[1]
     last_digits = remainder[:NUM_DIGITS]
     #!Needs amending to capture the AUD dollar value
     remainder = re.split(r'that{0}a{0}\(\$USD\){0}'.format(WS),
